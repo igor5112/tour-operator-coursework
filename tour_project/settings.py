@@ -110,3 +110,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # tour_project/settings.py (в самый конец)
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# tour_project/settings.py
+YADISK_TOKEN = "y0__xDylpDWAxjXwTwgu8-g4xUYWBjVmzEMRlrzjbaf0DP-o0ka9Q"
+YADISK_APP_FOLDER = "tour_operator_backups" # Имя папки на Диске

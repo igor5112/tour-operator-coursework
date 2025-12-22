@@ -1,19 +1,19 @@
 {% extends "tours/base.html" %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}Добавить клиента{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card shadow-sm">
             <div class="card-body">
-                <h2 class="card-title text-center mb-4">{{ title }}</h2>
+                <h2 class="card-title text-center mb-4">Новый клиент</h2>
                 <form method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <div class="d-grid gap-2 mt-4">
-                        <button type="submit" class="btn btn-primary">{{ button_text }}</button>
-                        <a href="javascript:history.back()" class="btn btn-secondary">Отмена</a>
+                        <button type="submit" class="btn btn-primary">Сохранить клиента</button>
+                        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Отмена</a>
                     </div>
                 </form>
             </div>

@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from .forms import ClientForm, ContractForm
 import csv
 from django.http import HttpResponse
+from .forms import ClientForm, ContractForm, TourForm # <-- Добавьте TourForm
 
 def tour_list(request):
     tours = Tour.objects.all()
@@ -23,6 +24,7 @@ def dashboard(request):
     return render(request, 'tours/dashboard.html', context)
 
 
+# tours/views.py
 @login_required
 def add_client(request):
     if request.method == 'POST':
@@ -33,7 +35,12 @@ def add_client(request):
     else:
         form = ClientForm()
 
-    return render(request, 'tours/add_client.html', {'form': form})
+    context = {
+        'form': form,
+        'title': 'Новый клиент',
+        'button_text': 'Сохранить клиента'
+    }
+    return render(request, 'tours/generic_form.html', context)
 
 
 @login_required
@@ -48,7 +55,13 @@ def add_contract(request):
     else:
         form = ContractForm()
 
-    return render(request, 'tours/add_contract.html', {'form': form})
+    # Этот блок кода должен быть на том же уровне, что и 'if'/'else' выше
+    context = {
+        'form': form,
+        'title': 'Новый договор',
+        'button_text': 'Сохранить договор'
+    }
+    return render(request, 'tours/generic_form.html', context)
 
 @login_required
 def export_clients_to_csv(request):
@@ -64,3 +77,24 @@ def export_clients_to_csv(request):
         writer.writerow([client.id, client.first_name, client.last_name, client.email, client.phone_number])
 
     return response
+
+
+# tours/views.py
+@login_required
+def add_tour(request):
+    if request.method == 'POST':
+        form = TourForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('tour_list')  # После создания тура возвращаемся на главную
+    else:
+        form = TourForm()
+
+    # Мы можем использовать тот же шаблон, что и для add_client/add_contract,
+    # просто передадим в него другую форму и заголовки.
+    context = {
+        'form': form,
+        'title': 'Новый тур',
+        'button_text': 'Сохранить тур'
+    }
+    return render(request, 'tours/generic_form.html', context)
