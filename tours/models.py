@@ -43,12 +43,11 @@ class Tour(models.Model):
         verbose_name_plural = "Туры"
 
 
-# tours/models.py (добавление в конец файла)
 
 from django.contrib.auth.models import User, Group
 
 
-# Расширяем стандартного пользователя, чтобы добавить должность
+
 class EmployeeProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Пользователь")
     position = models.CharField(max_length=100, verbose_name="Должность")
@@ -111,7 +110,7 @@ class Payment(models.Model):
         verbose_name_plural = "Платежи"
 
 
-# tours/models.py (добавление в конец файла)
+
 
 class Transport(models.Model):
     TRANSPORT_CHOICES = [
@@ -155,3 +154,42 @@ class Review(models.Model):
     class Meta:
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
+
+
+
+
+class ClientDocument(models.Model):
+    DOCUMENT_TYPES = [
+        ('passport_rf', 'Паспорт РФ'),
+        ('passport_foreign', 'Загранпаспорт'),
+        ('birth_cert', 'Свидетельство о рождении'),
+    ]
+
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="documents", verbose_name="Клиент")
+    doc_type = models.CharField(max_length=20, choices=DOCUMENT_TYPES, verbose_name="Тип документа")
+    series = models.CharField(max_length=10, blank=True, verbose_name="Серия") # Серии может не быть
+    number = models.CharField(max_length=20, verbose_name="Номер")
+    issue_date = models.DateField(verbose_name="Дата выдачи")
+    expiry_date = models.DateField(verbose_name="Дата окончания срока действия")
+
+    def __str__(self):
+        return f"{self.get_doc_type_display()} №{self.number} для клиента {self.client}"
+
+    class Meta:
+        verbose_name = "Документ клиента"
+        verbose_name_plural = "Документы клиентов"
+
+
+class Insurance(models.Model):
+    contract = models.OneToOneField(Contract, on_delete=models.CASCADE, related_name="insurance", verbose_name="Договор")
+    company_name = models.CharField(max_length=150, verbose_name="Страховая компания")
+    policy_number = models.CharField(max_length=50, verbose_name="Номер полиса")
+    start_date = models.DateField(verbose_name="Дата начала страховки")
+    end_date = models.DateField(verbose_name="Дата окончания страховки")
+
+    def __str__(self):
+        return f"Страховка №{self.policy_number} от {self.company_name} по договору №{self.contract.id}"
+
+    class Meta:
+        verbose_name = "Страховка"
+        verbose_name_plural = "Страховки"
