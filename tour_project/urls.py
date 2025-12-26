@@ -1,12 +1,10 @@
-# tour_project/urls.py
 from django.contrib import admin
-from django.urls import path, include # <-- Добавьте include
+from django.urls import path, include
 
-# tour_project/urls.py
-# ... существующие импорты
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')), # <-- ДОБАВЬТЕ ЭТУ СТРОКУ
+    path('accounts/', include('django.contrib.auth.urls')),
     path('', include('tours.urls')),
 
 ]
