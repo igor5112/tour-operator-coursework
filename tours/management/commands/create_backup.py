@@ -1,4 +1,4 @@
-# tours/management/commands/create_backup.py
+
 import os
 import shutil
 import requests
@@ -21,11 +21,11 @@ class Command(BaseCommand):
         headers = {'Authorization': f'OAuth {token}'}
         params = {'path': yadisk_path, 'overwrite': 'true'}
         try:
-            # Сначала создаем папку на Диске. Если она уже есть, API вернет ошибку, но мы ее проигнорируем.
+
             requests.put('https://cloud-api.yandex.net/v1/disk/resources', headers=headers,
                          params={'path': f'app:/{app_folder}'})
 
-            # Теперь получаем ссылку на загрузку
+
             response = requests.get('https://cloud-api.yandex.net/v1/disk/resources/upload', headers=headers,
                                     params=params)
             response.raise_for_status()
@@ -48,7 +48,6 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.ERROR(f'Ответ сервера: {e.response.text}'))
 
     def handle(self, *args, **options):
-        # ... остальная часть handle без изменений ...
         self.stdout.write(self.style.SUCCESS('Начинаем процесс резервного копирования...'))
         db_path = settings.DATABASES['default']['NAME']
         backup_dir = os.path.join(settings.BASE_DIR, 'backups')
