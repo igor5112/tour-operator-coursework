@@ -62,7 +62,7 @@
                             <strong>Даты:</strong> с {{ tour.start_date|date:"d M Y" }} по {{ tour.end_date|date:"d M Y" }}
                         </p>
                         <h4 class="text-success mt-auto">{{ tour.price|floatformat:2 }} руб.</h4>
-                        <a href="#" class="btn btn-primary mt-2">Подробнее</a>
+                        <a href="{% url 'tour_detail' tour.id %}" class="btn btn-primary mt-2">Подробнее</a>
                     </div>
                 </div>
             </div>
