@@ -6,8 +6,8 @@ from .models import Client, Contract, Tour
 
 class ClientForm(forms.ModelForm):
     class Meta:
-        model = Client  # Указываем, что форма основана на модели Client
-        fields = ['first_name', 'last_name', 'email', 'phone_number'] # Поля, которые будут в форме
+        model = Client
+        fields = ['first_name', 'last_name', 'email', 'phone_number'] #
 
 class ContractForm(forms.ModelForm):
     class Meta:
@@ -17,5 +17,4 @@ class ContractForm(forms.ModelForm):
 class TourForm(forms.ModelForm):
     class Meta:
         model = Tour
-        # Включаем все поля, которые должен заполнить менеджер
         fields = ['title', 'description', 'price', 'start_date', 'end_date', 'hotel']
